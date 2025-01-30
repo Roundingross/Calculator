@@ -1,13 +1,10 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="placeholderDisplay">0</string>
-    <string name="backspaceText">⌫</string>
     <string name="clearText">C</string>
-    <string name="clearRecentEntryText">CE</string>
     <string name="decimalText">.</string>
-    <string name="divisionText">÷</string>
-    <string name="equalText">=</string>
-    <string name="fractionText">⅟×</string>
+    <string name="divisionSymbolText">÷</string>
+    <string name="equalSymbolText">=</string>
     <string name="minusSymbolText">−</string>
     <string name="multiplicationSymbolText">×</string>
     <string name="numberFiveText">5</string>
@@ -23,7 +20,6 @@
     <string name="percentageSymbolText">%</string>
     <string name="plusSymbolText">+</string>
     <string name="positiveNegativeSymbolText">±</string>
-    <string name="squareText">×²</string>
-    <string name="squareRootText">√</string>
+    <string name="squareRootSymbolText">√</string>
 
 </resources>
