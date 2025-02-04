@@ -1,25 +1,28 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="placeholderDisplay">0</string>
-    <string name="clearText">C</string>
-    <string name="decimalText">.</string>
-    <string name="divisionSymbolText">÷</string>
-    <string name="equalSymbolText">=</string>
-    <string name="minusSymbolText">−</string>
-    <string name="multiplicationSymbolText">×</string>
-    <string name="numberFiveText">5</string>
-    <string name="numberEightText">8</string>
-    <string name="numberFourText">4</string>
-    <string name="numberNineText">9</string>
-    <string name="numberOneText">1</string>
-    <string name="numberSevenText">7</string>
-    <string name="numberSixText">6</string>
-    <string name="numberThreeText">3</string>
-    <string name="numberTwoText">2</string>
-    <string name="numberZeroText">0</string>
-    <string name="percentageSymbolText">%</string>
-    <string name="plusSymbolText">+</string>
-    <string name="positiveNegativeSymbolText">±</string>
-    <string name="squareRootSymbolText">√</string>
+
+    <string-array name="buttonNames">
+        <item name="zero">0</item>
+        <item name="one">1</item>
+        <item name="two">2</item>
+        <item name="three">3</item>
+        <item name="four">4</item>
+        <item name="five">5</item>
+        <item name="six">6</item>
+        <item name="seven">7</item>
+        <item name="eight">8</item>
+        <item name="nine">9</item>
+        <item name="plus">+</item>
+        <item name="minus">-</item>
+        <item name="multiply">*</item>
+        <item name="divide">/</item>
+        <item name="equal">=</item>
+        <item name="clear">C</item>
+        <item name="decimal">.</item>
+        <item name="percentage">%</item>
+        <item name="positiveNegative">±</item>
+        <item name="squareRoot">√</item>
+    </string-array>
 
 </resources>
