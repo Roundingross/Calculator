@@ -10,7 +10,8 @@ import com.samcain.Calculator.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private final int BUTTON_COUNT = 20;
+    private final int KEY_HEIGHT = 4;
+    private final int KEY_WIDTH = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +36,33 @@ public class MainActivity extends AppCompatActivity {
         output.setTextSize(24);
         constraintLayout.addView(output);
 
-        // Create buttons
-        int[] buttonIds = new int[BUTTON_COUNT];
-        String[] buttonText = getResources().getStringArray(R.array.buttonNames);
-        for (int i = 0; i < BUTTON_COUNT; i++) {
-            TextView button = new TextView(this);
-            button.setText(buttonText[i]);
-            button.setId(buttonIds[i]);
-            button.setTextSize(16);
-            constraintLayout.addView(button);
+        int buttonIndex = 0;
+        for (int i = 0; i < KEY_HEIGHT; i++) {
+            for (int j = 0; j < KEY_WIDTH; j++) {
+                // Create button
+                TextView button = new TextView(this);
+                button.setText(getResources().getStringArray(R.array.buttons)[buttonIndex]);
+                button.setTextSize(24);
+                button.setId(View.generateViewId());
+                constraintLayout.addView(button);
+                buttonIndex++;
+            }
         }
-        // Connect buttons
-        for (int i = 0; i < BUTTON_COUNT; i++) {
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(buttonIds[i], ConstraintSet.TOP, output.getId(), ConstraintSet.BOTTOM);
+
+        // Create chain of buttons
+        int[][] horizontalChains = new int[KEY_HEIGHT][KEY_WIDTH];
+        int[][] verticalChains = new int[KEY_HEIGHT][KEY_WIDTH];
+        for (int i = 0; i < KEY_HEIGHT; i++) {
+            for (int j = 0; j < KEY_WIDTH; j++) {
+                horizontalChains[i][j] = View.generateViewId();
+                verticalChains[i][j] = View.generateViewId();
+            }
         }
+
+
+
+
+
 
 
 

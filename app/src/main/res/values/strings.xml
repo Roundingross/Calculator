@@ -2,27 +2,31 @@
     <string name="app_name">Calculator</string>
     <string name="placeholderDisplay">0</string>
 
-    <string-array name="buttonNames">
-        <item name="zero">0</item>
-        <item name="one">1</item>
-        <item name="two">2</item>
-        <item name="three">3</item>
-        <item name="four">4</item>
-        <item name="five">5</item>
-        <item name="six">6</item>
-        <item name="seven">7</item>
-        <item name="eight">8</item>
-        <item name="nine">9</item>
-        <item name="plus">+</item>
-        <item name="minus">-</item>
-        <item name="multiply">*</item>
-        <item name="divide">/</item>
-        <item name="equal">=</item>
-        <item name="clear">C</item>
-        <item name="decimal">.</item>
-        <item name="percentage">%</item>
-        <item name="positiveNegative">±</item>
-        <item name="squareRoot">√</item>
+    <string-array name="buttons">
+        <item>7</item>
+        <item>4</item>
+        <item>1</item>
+        <item>±</item>
+
+        <item>8</item>
+        <item>5</item>
+        <item>2</item>
+        <item>0</item>
+
+        <item>9</item>
+        <item>6</item>
+        <item>3</item>
+        <item>.</item>
+
+        <item>√</item>
+        <item>÷</item>
+        <item>×</item>
+        <item>+</item>
+
+        <item>C</item>
+        <item>%</item>
+        <item>−</item>
+        <item>=</item>
     </string-array>
 
 </resources>
