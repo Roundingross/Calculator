@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
-
 import com.samcain.Calculator.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,19 +21,23 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         initLayout();
     }
 
     // Initialize Layout
     private void initLayout() {
+        // Get ConstraintLayout
         ConstraintLayout constraintLayout = binding.main;
+        // Set background color
         constraintLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.grey));
-        String[] buttonText = getResources().getStringArray(R.array.buttonText);
-        String[] tag = getResources().getStringArray(R.array.button_tags);
+        // Initialize variables/arrays
+        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics());
         int buttonIndex = 0;
         int KEY_ROWS = 4;
         int KEY_COLUMNS = 5;
+        String[] buttonText = getResources().getStringArray(R.array.buttonText);
+        String text = buttonText[buttonIndex];
+        String[] tag = getResources().getStringArray(R.array.buttonTags);
 
         // Create arrays for horizontal and vertical chains.
         int[][] horizontals = new int[KEY_ROWS][KEY_COLUMNS];
@@ -44,30 +47,33 @@ public class MainActivity extends AppCompatActivity {
         TextView output = new TextView(this);
         int outputId = View.generateViewId();
         output.setId(outputId);
-        output.setTag("output");
         output.setText(R.string.placeholderDisplay);
+        output.setTag("output");
         output.setTextSize(48);
         output.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
         constraintLayout.addView(output);
 
-
         // Create button grid.
         for (int i = 0; i < KEY_ROWS; i++) {
             for (int j = 0; j < KEY_COLUMNS; j++) {
+                // Break if all buttons have been added
                 if (buttonIndex >= buttonText.length) {
                     break;
                 }
+                // Create buttons
                 Button button = new Button(this);
                 int buttonId = View.generateViewId();
                 button.setId(buttonId);
-                String text = buttonText[buttonIndex];
                 button.setText(text);
                 button.setTextSize(24);
                 button.setTag(tag);
 
-                constraintLayout.addView(button);
+                // Add buttons to arrays
                 horizontals[i][j] = buttonId;
                 verticals[j][i] = buttonId;
+
+                // Add buttons to ConstraintLayout
+                constraintLayout.addView(button);
                 buttonIndex++;
             }
         }
@@ -75,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         // Create ConstraintSet
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
-        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics());
 
         // Constrain the output TextView
         constraintSet.connect(outputId, ConstraintSet.TOP, binding.guidelineNorth.getId(), ConstraintSet.BOTTOM);
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     verticals[col],null, ConstraintSet.CHAIN_SPREAD_INSIDE
             );
         }
+        // Apply constraints
         constraintSet.applyTo(constraintLayout);
     }
 }

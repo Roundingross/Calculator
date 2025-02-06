@@ -28,7 +28,7 @@
         <item>=</item>
     </string-array>
 
-    <string-array name="button_tags">
+    <string-array name="buttonTags">
         <item>button_7</item>
         <item>button_8</item>
         <item>button_9</item>
