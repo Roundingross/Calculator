@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Calculator</string>
-    <string name="placeholderDisplay">0</string>
 
     <string-array name="buttonText">
         <item>7</item>
@@ -19,7 +18,7 @@
         <item>2</item>
         <item>3</item>
         <item>×</item>
-        <item>−</item>
+        <item>-</item>
 
         <item>±</item>
         <item>0</item>
@@ -29,29 +28,29 @@
     </string-array>
 
     <string-array name="buttonTags">
-        <item>button_7</item>
-        <item>button_8</item>
-        <item>button_9</item>
-        <item>button_sqrt</item>
-        <item>button_c</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>√</item>
+        <item>C</item>
 
-        <item>button_4</item>
-        <item>button_5</item>
-        <item>button_6</item>
-        <item>button_division</item>
-        <item>button_percent</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>÷</item>
+        <item>%</item>
 
-        <item>button_1</item>
-        <item>button_2</item>
-        <item>button_3</item>
-        <item>button_multiply</item>
-        <item>button_subtraction</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>×</item>
+        <item>-</item>
 
-        <item>button_positive_negative</item>
-        <item>button_0</item>
-        <item>button_decimal</item>
-        <item>button_add</item>
-        <item>button_equals</item>
+        <item>±</item>
+        <item>0</item>
+        <item>.</item>
+        <item>+</item>
+        <item>=</item>
     </string-array>
 
 </resources>

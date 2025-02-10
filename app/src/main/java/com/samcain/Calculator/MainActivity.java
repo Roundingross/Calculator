@@ -14,6 +14,12 @@ import com.samcain.Calculator.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    // Model pass for Toast context
+    private final CalculatorModel model = new CalculatorModel(this);
+    // Click Handler
+    private ClickHandler clickHandler;
+    // Output TextView
+    private TextView outputDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        clickHandler = new ClickHandler();
         initLayout();
     }
 
@@ -35,23 +42,23 @@ public class MainActivity extends AppCompatActivity {
         int buttonIndex = 0;
         int KEY_ROWS = 4;
         int KEY_COLUMNS = 5;
+
+        // Get button text/tags from Arrays
         String[] buttonText = getResources().getStringArray(R.array.buttonText);
-        String text = buttonText[buttonIndex];
-        String[] tag = getResources().getStringArray(R.array.buttonTags);
+        String[] buttonTag = getResources().getStringArray(R.array.buttonTags);
 
         // Create arrays for horizontal and vertical chains.
         int[][] horizontals = new int[KEY_ROWS][KEY_COLUMNS];
         int[][] verticals = new int[KEY_COLUMNS][KEY_ROWS];
 
         // Create output TextView
-        TextView output = new TextView(this);
+        outputDisplay = new TextView(this);
         int outputId = View.generateViewId();
-        output.setId(outputId);
-        output.setText(R.string.placeholderDisplay);
-        output.setTag("output");
-        output.setTextSize(48);
-        output.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
-        constraintLayout.addView(output);
+        outputDisplay.setId(outputId);
+        outputDisplay.setTag("output");
+        outputDisplay.setTextSize(48);
+        outputDisplay.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+        constraintLayout.addView(outputDisplay);
 
         // Create button grid.
         for (int i = 0; i < KEY_ROWS; i++) {
@@ -64,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
                 Button button = new Button(this);
                 int buttonId = View.generateViewId();
                 button.setId(buttonId);
-                button.setText(text);
+                button.setText(buttonText[buttonIndex]);
                 button.setTextSize(24);
-                button.setTag(tag);
-
+                button.setTag(buttonTag[buttonIndex]);
                 // Add buttons to arrays
                 horizontals[i][j] = buttonId;
                 verticals[j][i] = buttonId;
-
+                // Set click handler
+                button.setOnClickListener(clickHandler);
                 // Add buttons to ConstraintLayout
                 constraintLayout.addView(button);
                 buttonIndex++;
@@ -116,7 +123,17 @@ public class MainActivity extends AppCompatActivity {
                     verticals[col],null, ConstraintSet.CHAIN_SPREAD_INSIDE
             );
         }
-        // Apply constraints
         constraintSet.applyTo(constraintLayout);
+    }
+
+    // Click handler class
+    private class ClickHandler implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String input = view.getTag().toString();
+            final String output = model.processInput(input);
+
+            runOnUiThread(() -> outputDisplay.setText(output));
+        }
     }
 }
