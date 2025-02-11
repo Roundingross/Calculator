@@ -8,6 +8,11 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 
+/**
+ * CalculatorModel class
+ * Handles all the logic for operations and data storage.
+ * Calculates results, state management, and display updates.
+ */
 public class CalculatorModel {
     // States
     private States currentState;
@@ -21,7 +26,10 @@ public class CalculatorModel {
     // Main display
     private String display;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param context for displaying Toast messages
+     */
     public CalculatorModel(Context context) {
         this.context = context;
         currentState = States.IDLE;
@@ -87,7 +95,6 @@ public class CalculatorModel {
                 break;
         }
     }
-
 
     // Handle binary operator input
     private void processBinaryOperator(String op) {
@@ -161,7 +168,11 @@ public class CalculatorModel {
         }
     }
 
-    // Calculate result for binary operations
+    /**
+     * Performs calculation and updates display
+     * Handles repeated calculations with "="
+     * Stores expression history for display
+     */
     private void calculateResult() {
         // Check for valid input
         if (leftOperand.length() == 0 || operator.isEmpty()) {
@@ -243,6 +254,7 @@ public class CalculatorModel {
     private boolean isUnaryOperator(String input) {
         return input.equals("√") || input.equals("%");
     }
+    // Clear all variables
     private void clearAll() {
         currentState = States.IDLE;
         leftOperand.setLength(0);
@@ -254,6 +266,7 @@ public class CalculatorModel {
     private void resetExpression() {
         expression.setLength(0);
     }
+    // Update display
     private void updateExpression(String updatedExpression) {
         // Only format if it's a valid number
         try {
@@ -264,6 +277,7 @@ public class CalculatorModel {
             display = updatedExpression;
         }
     }
+    // Format number
     private String formatNumber(String value) {
         try {
             // Remove unnecessary commas or spaces
@@ -277,6 +291,7 @@ public class CalculatorModel {
             return value;
         }
     }
+    // Plus/Minus
     private void toggleSign() {
         switch (currentState) {
             case LEFT_OPERAND:
@@ -301,6 +316,7 @@ public class CalculatorModel {
                 break;
         }
     }
+    // Toast helper
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }

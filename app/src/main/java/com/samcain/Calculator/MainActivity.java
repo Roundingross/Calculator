@@ -12,13 +12,23 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import com.samcain.Calculator.databinding.ActivityMainBinding;
 
-// View (MainActivity) implementing CalculatorView interface
+/**
+ * MainActivity class
+ * Handles layout and buttons, set up dynamically.
+ * Manages button clicks and passes input to the Presenter.
+ */
 public class MainActivity extends AppCompatActivity implements CalculatorView {
     private ActivityMainBinding binding;
     private CalculatorPresenter presenter;
     private TextView outputDisplay;
     private TextView secondaryOutputDisplay;
 
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
                     verticals[col],null, ConstraintSet.CHAIN_SPREAD_INSIDE
             );
         }
+        // Apply constraints
         constraintSet.applyTo(constraintLayout);
     }
 
@@ -149,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         presenter.onButtonClick(v.getTag().toString());
     }
 
-    // Updates the display when Presenter provides new output
+    // Updates the displays when Presenter provides new output
     @Override
     public void updateDisplay(String value) {
         outputDisplay.setText(value);
