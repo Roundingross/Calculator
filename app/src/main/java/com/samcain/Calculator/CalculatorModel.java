@@ -6,7 +6,6 @@ import android.widget.Toast;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class CalculatorModel {
@@ -53,6 +52,12 @@ public class CalculatorModel {
 
     // Handle digit and decimal input
     private void processDigit(String digit) {
+        StringBuilder currentOperand = (currentState == States.RIGHT_OPERAND) ? rightOperand : leftOperand;
+        // Prevent multiple decimal points in a number
+        if (digit.equals(".") && currentOperand.toString().contains(".")) {
+            showToast("Only one decimal point is allowed.");
+            return;
+        }
         switch (currentState) {
             case IDLE:
             case DISPLAY:
@@ -209,7 +214,11 @@ public class CalculatorModel {
                     showToast("Unsupported operator");
                     return;
             }
-            // Update display
+            // Format left number
+            String formattedLeft = formatNumber(left.toPlainString());
+            expression.setLength(0);
+            expression.append(formattedLeft).append(" ").append(operator).append(" ").append(right.toPlainString()).append(" = ");
+            // Update leftOperand with the new result
             leftOperand.setLength(0);
             leftOperand.append(result.stripTrailingZeros().toPlainString());
             updateExpression(leftOperand.toString());
@@ -217,6 +226,7 @@ public class CalculatorModel {
         } catch (Exception e) {
             // Handle exceptions
             showToast("Calculation error");
+            Log.d("DEBUG", "Exception in calculateResult(): " + e.getMessage());
             display = "Error";
             currentState = States.IDLE;
         }
@@ -245,26 +255,23 @@ public class CalculatorModel {
         expression.setLength(0);
     }
     private void updateExpression(String updatedExpression) {
-        expression.setLength(0);
-        expression.append(updatedExpression);
-        display = formatNumber(expression.toString());
+        // Only format if it's a valid number
+        try {
+            // Try parsing as a number
+            new BigDecimal(updatedExpression);
+            display = formatNumber(updatedExpression);
+        } catch (NumberFormatException e) {
+            display = updatedExpression;
+        }
     }
     private String formatNumber(String value) {
         try {
-            // Remove commas and any unwanted characters before parsing
+            // Remove unnecessary commas or spaces
             String sanitizedValue = value.replace(",", "").trim();
             BigDecimal num = new BigDecimal(sanitizedValue);
-            int digits = num.precision();
-
-            // Switch to scientific notation if number exceeds 12 digits
-            if (digits > 12 || sanitizedValue.length() > 12) {
-                return new DecimalFormat("0.#####E0").format(num);
-            } else {
-                // Format with commas for numbers up to 12 digits
-                NumberFormat formatter = NumberFormat.getInstance();
-                formatter.setGroupingUsed(true);
-                return formatter.format(num);
-            }
+            NumberFormat formatter = NumberFormat.getInstance();
+            formatter.setGroupingUsed(true);
+            return formatter.format(num);
         } catch (Exception e) {
             Log.e("DEBUG", "Number formatting error - " + value, e);
             return value;
@@ -296,5 +303,9 @@ public class CalculatorModel {
     }
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+    // Getter
+    public String getFullExpression() {
+        return expression.toString();
     }
 }

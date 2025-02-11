@@ -12,14 +12,12 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import com.samcain.Calculator.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+// View (MainActivity) implementing CalculatorView interface
+public class MainActivity extends AppCompatActivity implements CalculatorView {
     private ActivityMainBinding binding;
-    // Model pass for Toast context
-    private final CalculatorModel model = new CalculatorModel(this);
-    // Click Handler
-    private ClickHandler clickHandler;
-    // Output TextView
+    private CalculatorPresenter presenter;
     private TextView outputDisplay;
+    private TextView secondaryOutputDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +25,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        clickHandler = new ClickHandler();
+
+        // Initialize the Presenter
+        presenter = new CalculatorPresenter(this, this);
+
+        // Setup Layout
         initLayout();
+        updateDisplay("0");
     }
 
     // Initialize Layout
@@ -51,7 +54,16 @@ public class MainActivity extends AppCompatActivity {
         int[][] horizontals = new int[KEY_ROWS][KEY_COLUMNS];
         int[][] verticals = new int[KEY_COLUMNS][KEY_ROWS];
 
-        // Create output TextView
+        // Create secondaryOutputDisplay TextView
+        secondaryOutputDisplay = new TextView(this);
+        int expressionId = View.generateViewId();
+        secondaryOutputDisplay.setId(expressionId);
+        secondaryOutputDisplay.setTag("expression");
+        secondaryOutputDisplay.setTextSize(24);  // Smaller than main display
+        secondaryOutputDisplay.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+        constraintLayout.addView(secondaryOutputDisplay);
+
+        // Create outputDisplay TextView
         outputDisplay = new TextView(this);
         int outputId = View.generateViewId();
         outputDisplay.setId(outputId);
@@ -78,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 horizontals[i][j] = buttonId;
                 verticals[j][i] = buttonId;
                 // Set click handler
-                button.setOnClickListener(clickHandler);
+                button.setOnClickListener(this::onButtonClick);
                 // Add buttons to ConstraintLayout
                 constraintLayout.addView(button);
                 buttonIndex++;
@@ -88,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
         // Create ConstraintSet
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(constraintLayout);
+
+        // Position expressionDisplay above main outputDisplay
+        constraintSet.connect(expressionId, ConstraintSet.BOTTOM, outputId, ConstraintSet.TOP);
+        constraintSet.connect(expressionId, ConstraintSet.END, binding.guidelineEast.getId(), ConstraintSet.START);
+        constraintSet.constrainWidth(expressionId, ConstraintSet.WRAP_CONTENT);
+        constraintSet.constrainHeight(expressionId, ConstraintSet.WRAP_CONTENT);
 
         // Constrain the output TextView
         constraintSet.connect(outputId, ConstraintSet.TOP, binding.guidelineNorth.getId(), ConstraintSet.BOTTOM);
@@ -126,14 +144,17 @@ public class MainActivity extends AppCompatActivity {
         constraintSet.applyTo(constraintLayout);
     }
 
-    // Click handler class
-    private class ClickHandler implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            String input = view.getTag().toString();
-            final String output = model.processInput(input);
+    // Handles button click events, passing input to the Presenter
+    private void onButtonClick(View v) {
+        presenter.onButtonClick(v.getTag().toString());
+    }
 
-            runOnUiThread(() -> outputDisplay.setText(output));
-        }
+    // Updates the display when Presenter provides new output
+    @Override
+    public void updateDisplay(String value) {
+        outputDisplay.setText(value);
+    }
+    public void updateSecondaryDisplay(String value) {
+        secondaryOutputDisplay.setText(value);
     }
 }
