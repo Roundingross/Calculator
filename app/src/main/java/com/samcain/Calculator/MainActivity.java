@@ -17,7 +17,7 @@ import com.samcain.Calculator.databinding.ActivityMainBinding;
  * Handles layout and buttons, set up dynamically.
  * Manages button clicks and passes input to the Presenter.
  */
-public class MainActivity extends AppCompatActivity implements CalculatorView {
+public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private CalculatorPresenter presenter;
     private TextView outputDisplay;
@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     }
 
     // Updates the displays when Presenter provides new output
-    @Override
     public void updateDisplay(String value) {
         outputDisplay.setText(value);
     }

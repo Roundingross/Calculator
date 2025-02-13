@@ -153,10 +153,6 @@ public class CalculatorModel {
                 case "%":
                     result = operand.divide(new BigDecimal("100"), new MathContext(10, RoundingMode.HALF_UP));
                     break;
-                // Plus/Minus
-                case "±":
-                    result = operand.negate();
-                    break;
                 // Unsupported operation
                 default:
                     return;

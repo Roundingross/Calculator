@@ -10,17 +10,17 @@ import android.content.Context;
  */
 public class CalculatorPresenter {
     private final CalculatorModel model;
-    private final CalculatorView view;
+    private final MainActivity view;
 
     /**
      * Constructor
      * @param view updates the view
      * @param context for model initialization
      */
-    public CalculatorPresenter(CalculatorView view, Context context) {
-        this.view = view;
+    public CalculatorPresenter(MainActivity view, Context context) {
         // Context for Toast messages
         this.model = new CalculatorModel(context);
+        this.view = view;
     }
     /**
      * Handles user input and updates the view
@@ -33,10 +33,10 @@ public class CalculatorPresenter {
         if (input.equals("=")) {
             String fullExpression = model.getFullExpression();
 
-            ((MainActivity) view).updateSecondaryDisplay(fullExpression);
+            (view).updateSecondaryDisplay(fullExpression);
         }
         if (input.equals("C")) {
-            ((MainActivity) view).updateSecondaryDisplay("");
+            (view).updateSecondaryDisplay("");
         }
         view.updateDisplay(result);
     }
