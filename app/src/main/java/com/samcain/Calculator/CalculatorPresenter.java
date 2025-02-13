@@ -25,8 +25,8 @@ public class CalculatorPresenter {
     /**
      * Handles user input and updates the view
      * @param input
-     * '=' updates the secondary display
-     * 'C' clears the secondary display
+     * '=' updates the main display and secondary display
+     * 'C' clears the main display and secondary display
      */
     public void onButtonClick(String input) {
         String result = model.processInput(input);

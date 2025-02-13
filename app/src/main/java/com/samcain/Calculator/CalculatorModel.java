@@ -6,6 +6,7 @@ import android.widget.Toast;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -49,6 +50,11 @@ public class CalculatorModel {
         } else if (isBinaryOperator(input)) {
             processBinaryOperator(input);
         } else if (input.equals("=")) {
+            /* if () {
+                calculateResult();
+            } else {
+                calculateResult();
+            } */
             calculateResult();
         } else if (input.equals("C")) {
             clearAll();
@@ -243,7 +249,6 @@ public class CalculatorModel {
         }
     }
 
-
     // Helpers
     private boolean isDigitOrDecimal(String input) {
         return input.matches("[0-9.]");
@@ -254,6 +259,7 @@ public class CalculatorModel {
     private boolean isUnaryOperator(String input) {
         return input.equals("√") || input.equals("%");
     }
+
     // Clear all variables
     private void clearAll() {
         currentState = States.IDLE;
@@ -266,6 +272,7 @@ public class CalculatorModel {
     private void resetExpression() {
         expression.setLength(0);
     }
+
     // Update display
     private void updateExpression(String updatedExpression) {
         // Only format if it's a valid number
@@ -277,20 +284,29 @@ public class CalculatorModel {
             display = updatedExpression;
         }
     }
+
     // Format number
     private String formatNumber(String value) {
         try {
             // Remove unnecessary commas or spaces
             String sanitizedValue = value.replace(",", "").trim();
             BigDecimal num = new BigDecimal(sanitizedValue);
-            NumberFormat formatter = NumberFormat.getInstance();
-            formatter.setGroupingUsed(true);
-            return formatter.format(num);
+            // Convert to Scientific Notation after 12 digits
+            int digits = num.precision();
+            if (digits > 12 || sanitizedValue.length() > 12) {
+                return new DecimalFormat("0.0E0").format(num);
+            } else {
+                // Format with commas for large numbers
+                NumberFormat formatter = NumberFormat.getInstance();
+                formatter.setGroupingUsed(true);
+                return formatter.format(num);
+            }
         } catch (Exception e) {
             Log.e("DEBUG", "Number formatting error - " + value, e);
             return value;
         }
     }
+
     // Plus/Minus
     private void toggleSign() {
         switch (currentState) {
@@ -316,10 +332,12 @@ public class CalculatorModel {
                 break;
         }
     }
+
     // Toast helper
     private void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
     // Getter
     public String getFullExpression() {
         return expression.toString();
