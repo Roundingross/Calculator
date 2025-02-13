@@ -29,6 +29,7 @@ public class CalculatorPresenter {
      * 'C' clears the main display and secondary display
      */
     public void onButtonClick(String input) {
+        // Pass input to the model
         String result = model.processInput(input);
         if (input.equals("=")) {
             String fullExpression = model.getFullExpression();
@@ -38,6 +39,7 @@ public class CalculatorPresenter {
         if (input.equals("C")) {
             (view).updateSecondaryDisplay("");
         }
+        // Update the view with the result
         view.updateDisplay(result);
     }
 
