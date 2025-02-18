@@ -172,11 +172,15 @@ public class CalculatorModel {
 
     /**
      * Checks if the expression is valid and performs the calculation
-     * Stores right operand for repeated calculations with "="
+     * Stores right operand for repeated calculations with "op" or "="
+     *
+     * Set work for updating secondary display on repeated operations
      */
     private void operationCheck() {
         if (leftOperand.length() == 0 || operator.isEmpty()) {
             showToast("Incomplete expression");
+            display = "Error";
+            currentState = States.ERROR;
         } else if (rightOperand.length() == 0) {
             // Store right operand
             rightOperand.setLength(0);
