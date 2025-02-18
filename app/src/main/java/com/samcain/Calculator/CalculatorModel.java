@@ -68,6 +68,7 @@ public class CalculatorModel {
             return;
         }
         switch (currentState) {
+            case ERROR:
             case IDLE:
             case DISPLAY:
                 // If a new digit is typed after a calculation, reset everything
@@ -130,6 +131,8 @@ public class CalculatorModel {
     private void processUnaryOperator(String op) {
         if (leftOperand.length() == 0) {
             showToast("No operand available");
+            display = "Error";
+            currentState = States.ERROR;
             return;
         }
         try {
@@ -140,6 +143,8 @@ public class CalculatorModel {
                 case "√":
                     if (operand.compareTo(BigDecimal.ZERO) < 0) {
                         showToast("Cannot take square root of a negative number");
+                        display = "Error";
+                        currentState = States.ERROR;
                         return;
                     }
                     result = new BigDecimal(Math.sqrt(operand.doubleValue()), new MathContext(10, RoundingMode.HALF_UP));
@@ -161,7 +166,7 @@ public class CalculatorModel {
             // Handle exceptions
             showToast("Unary operation error");
             display = "Error";
-            currentState = States.IDLE;
+            currentState = States.ERROR;
         }
     }
 
@@ -223,6 +228,7 @@ public class CalculatorModel {
                     if (right.compareTo(BigDecimal.ZERO) == 0) {
                         showToast("Cannot divide by zero");
                         display = "Error";
+                        currentState = States.ERROR;
                         return;
                     }
                     result = left.divide(right, mc);
@@ -230,6 +236,8 @@ public class CalculatorModel {
                 // Unsupported operator
                 default:
                     showToast("Unsupported operator");
+                    display = "Error";
+                    currentState = States.ERROR;
                     return;
             }
             // Format left number
@@ -246,7 +254,7 @@ public class CalculatorModel {
             showToast("Calculation error");
             Log.d("DEBUG", "Exception in calculateResult(): " + e.getMessage());
             display = "Error";
-            currentState = States.IDLE;
+            currentState = States.ERROR;
         }
     }
 

@@ -9,5 +9,5 @@ package com.samcain.Calculator;
  * DISPLAY - Displays result
  */
 public enum States {
-    IDLE, LEFT_OPERAND, RIGHT_OPERAND, OPERATOR, DISPLAY
+    IDLE, LEFT_OPERAND, RIGHT_OPERAND, OPERATOR, DISPLAY, ERROR
 }
