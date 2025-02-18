@@ -41,7 +41,7 @@ public class CalculatorModel {
         display = "0";
     }
 
-    // Process user input and update display
+    // Processes user input and update display
     public String processInput(String input) {
         if (isUnaryOperator(input)) {
             processUnaryOperator(input);
@@ -50,12 +50,7 @@ public class CalculatorModel {
         } else if (isBinaryOperator(input)) {
             processBinaryOperator(input);
         } else if (input.equals("=")) {
-            /* if () {
-                calculateResult();
-            } else {
-                calculateResult();
-            } */
-            calculateResult();
+            operationCheck();
         } else if (input.equals("C")) {
             clearAll();
         } else if (input.equals("±")) {
@@ -64,7 +59,7 @@ public class CalculatorModel {
         return display;
     }
 
-    // Handle digit and decimal input
+    // Handles digit and decimal input
     private void processDigit(String digit) {
         StringBuilder currentOperand = (currentState == States.RIGHT_OPERAND) ? rightOperand : leftOperand;
         // Prevent multiple decimal points in a number
@@ -102,7 +97,7 @@ public class CalculatorModel {
         }
     }
 
-    // Handle binary operator input
+    // Handles binary operator input
     private void processBinaryOperator(String op) {
         // Convert dash to minus
         if (op.equals("−")) {
@@ -131,7 +126,7 @@ public class CalculatorModel {
         }
     }
 
-    // Handle unary operators (√, %)
+    // Handles unary operators (√, %)
     private void processUnaryOperator(String op) {
         if (leftOperand.length() == 0) {
             showToast("No operand available");
@@ -171,17 +166,27 @@ public class CalculatorModel {
     }
 
     /**
+     * Checks if the expression is valid and performs the calculation
+     * Stores right operand for repeated calculations with "="
+     */
+    private void operationCheck() {
+        if (leftOperand.length() == 0 || operator.isEmpty()) {
+            showToast("Incomplete expression");
+        } else if (rightOperand.length() == 0) {
+            // Store right operand
+            rightOperand.setLength(0);
+            rightOperand.append(leftOperand);
+            calculateResult();
+        } else {
+            calculateResult();
+        }
+    }
+
+    /**
      * Performs calculation and updates display
-     * Handles repeated calculations with "="
      * Stores expression history for display
      */
     private void calculateResult() {
-        // Check for valid input
-        if (leftOperand.length() == 0 || operator.isEmpty()) {
-            showToast("Incomplete expression");
-            return;
-        }
-        // Calculate result
         try {
             MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
             BigDecimal left, right, result;
