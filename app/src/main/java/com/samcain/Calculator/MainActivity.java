@@ -1,6 +1,7 @@
 package com.samcain.Calculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -163,8 +164,10 @@ public class MainActivity extends AppCompatActivity {
     // Updates the displays when Presenter provides new output
     public void updateDisplay(String value) {
         outputDisplay.setText(value);
+        Log.d("DEBUG", "Updating main display: " + value);
     }
     public void updateSecondaryDisplay(String value) {
+        Log.d("DEBUG", "Updating secondary display: " + value);
         secondaryOutputDisplay.setText(value);
     }
 }
